@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>KS-PRO 안전 퀴즈</title>
+<style>
+  :root { --primary: #1e3a8a; --accent: #2563eb; --orange: #ea580c; --bg: #f8fafc; --text: #1e293b; --muted: #64748b; --border: #e2e8f0; --ok: #15803d; --bad: #b91c1c; }
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: "Pretendard", -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
+  header { background: var(--primary); color: #fff; padding: 20px 16px; text-align: center; }
+  header h1 { margin: 0; font-size: 20px; }
+  header p { margin: 4px 0 0; color: #93c5fd; font-size: 13px; }
+  main { max-width: 640px; margin: 0 auto; padding: 16px; }
+  .card { background: #fff; border: 1px solid var(--border); border-radius: 12px; padding: 18px; margin-bottom: 14px; }
+  label.field { display: block; font-weight: 600; font-size: 14px; margin-bottom: 12px; }
+  input[type=text], input[type=password] { width: 100%; padding: 12px; font-size: 16px; border: 1px solid var(--border); border-radius: 8px; margin-top: 4px; }
+  button { width: 100%; padding: 14px; font-size: 16px; font-weight: 700; color: #fff; background: var(--accent); border: 0; border-radius: 8px; cursor: pointer; }
+  button:disabled { opacity: .6; }
+  fieldset { border: 0; padding: 0; margin: 0; }
+  legend { font-weight: 700; margin-bottom: 10px; padding: 0; }
+  .opt { display: flex; gap: 10px; align-items: flex-start; padding: 10px 12px; border: 1px solid var(--border); border-radius: 8px; margin-bottom: 8px; cursor: pointer; }
+  .opt input { margin-top: 5px; width: 18px; height: 18px; flex: none; }
+  .opt:has(input:checked) { border-color: var(--accent); background: #eff6ff; }
+  .msg { color: var(--bad); font-weight: 600; min-height: 1.6em; }
+  .score { text-align: center; }
+  .score .big { font-size: 48px; font-weight: 800; margin: 0; }
+  .pass { color: var(--ok); } .fail { color: var(--bad); }
+  .right { border-left: 4px solid var(--ok); } .wrong { border-left: 4px solid var(--bad); }
+  .explain { color: var(--muted); font-size: 14px; margin: 8px 0 0; }
+  [hidden] { display: none !important; }
+</style>
+</head>
+<body>
+<header><h1>KS-PRO 안전 퀴즈</h1><p id="sub">사번과 비밀번호로 로그인하세요</p></header>
+<main>
+  <form id="login" class="card">
+    <label class="field">사번<input type="text" id="id" autocomplete="username" required></label>
+    <label class="field">비밀번호<input type="password" id="pw" autocomplete="current-password" required></label>
+    <p class="msg" id="loginMsg" role="alert"></p>
+    <button>로그인</button>
+  </form>
+
+  <form id="quiz" hidden>
+    <div id="questions"></div>
+    <p class="msg" id="quizMsg" role="alert"></p>
+    <button>제출하기</button>
+  </form>
+
+  <div id="result" hidden></div>
+</main>
+
+<script>
+// Apps Script 배포 후 받은 웹 앱 URL
+const API = 'PASTE_APPS_SCRIPT_URL_HERE';
+
+const $ = id => document.getElementById(id);
+let user, questions;
+
+async function call(body) {
+  // text/plain: Apps Script가 CORS 사전요청을 처리하지 못해서
+  const r = await fetch(API, { method: 'POST', headers: { 'Content-Type': 'text/plain' }, body: JSON.stringify(body) });
+  const data = await r.json();
+  if (data.error) throw new Error(data.error);
+  return data;
+}
+
+async function busy(form, msg, fn) {
+  const btn = form.querySelector('button');
+  btn.disabled = true; msg.textContent = '';
+  try { await fn(); }
+  catch (e) { msg.textContent = e.message === 'Failed to fetch' ? '서버에 연결할 수 없습니다. 잠시 후 다시 시도하세요.' : e.message; }
+  finally { btn.disabled = false; }
+}
+
+const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+
+$('login').onsubmit = e => {
+  e.preventDefault();
+  busy($('login'), $('loginMsg'), async () => {
+    user = { id: $('id').value.trim(), pw: $('pw').value.trim() };
+    const d = await call({ action: 'login', ...user });
+    questions = d.questions;
+    $('sub').textContent = `${d.name}님 · 제${d.round}회차 (${questions.length}문항)`;
+    $('questions').innerHTML = questions.map((q, i) => `
+      <fieldset class="card"><legend>${i + 1}. ${esc(q.q)}</legend>
+        ${q.options.map((o, j) => `<label class="opt"><input type="radio" name="q${i}" value="${j + 1}"><span>${esc(o)}</span></label>`).join('')}
+      </fieldset>`).join('');
+    $('login').hidden = true; $('quiz').hidden = false;
+  });
+};
+
+$('quiz').onsubmit = e => {
+  e.preventDefault();
+  const answers = questions.map((_, i) => (document.querySelector(`input[name=q${i}]:checked`) || {}).value);
+  const missing = answers.findIndex(a => !a);
+  if (missing >= 0) { $('quizMsg').textContent = `${missing + 1}번 문제에 답하지 않았습니다.`; return; }
+  if (!confirm('제출하시겠습니까?')) return;
+  busy($('quiz'), $('quizMsg'), async () => {
+    const d = await call({ action: 'submit', ...user, answers });
+    $('result').innerHTML = `
+      <div class="card score"><p class="big ${d.pass ? 'pass' : 'fail'}">${d.score}점</p>
+        <strong class="${d.pass ? 'pass' : 'fail'}">${d.pass ? '합격입니다. 수고하셨습니다!' : '불합격입니다. 해설을 확인하고 다시 응시해 주세요.'}</strong></div>
+      ${d.review.map((r, i) => `
+        <div class="card ${r.ok ? 'right' : 'wrong'}"><strong>${i + 1}. ${r.ok ? '정답' : '오답'}</strong> ${esc(questions[i].q)}
+          <p class="explain">정답: ${esc(questions[i].options[r.answer - 1] ?? r.answer)}${r.explain ? '<br>' + esc(r.explain) : ''}</p></div>`).join('')}
+      <button onclick="location.reload()">처음으로</button>`;
+    $('quiz').hidden = true; $('result').hidden = false; scrollTo(0, 0);
+  });
+};
+</script>
+</body>
+</html>
