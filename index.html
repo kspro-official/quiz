@@ -223,7 +223,7 @@
     <h1 class="title">안전 퀴즈</h1>
     <p class="lead">오늘의 안전 지식을 점검해 볼까요?</p>
     <form id="loginForm">
-      <label class="field"><input id="id" inputmode="numeric" autocomplete="username" placeholder="사번" aria-label="사번" required></label>
+      <label class="field"><input id="name" autocomplete="username" placeholder="이름" aria-label="이름" required></label>
       <label class="field"><input id="pw" type="password" autocomplete="current-password" placeholder="비밀번호" aria-label="비밀번호" required></label>
       <p class="msg" id="loginMsg" role="alert"></p>
       <button class="btn">로그인</button>
@@ -388,7 +388,7 @@ $('pwForm').onsubmit = e => {
   e.preventDefault();
   if ($('pwNew').value.trim() !== $('pwNew2').value.trim()) { $('pwMsg').textContent = '새 비밀번호가 서로 달라요.'; return; }
   busy($('pwForm').querySelector('button'), $('pwMsg'), async () => {
-    await call({ action: 'changePw', id: user.id, pw: $('pwCur').value.trim(), newPw: $('pwNew').value.trim() });
+    await call({ action: 'changePw', name: user.name, pw: $('pwCur').value.trim(), newPw: $('pwNew').value.trim() });
     user.pw = $('pwNew').value.trim(); me.defaultPw = false;
     renderHome(); show('home'); toast('비밀번호를 변경했어요');
   });
@@ -397,7 +397,7 @@ $('pwForm').onsubmit = e => {
 $('loginForm').onsubmit = e => {
   e.preventDefault();
   busy($('loginForm').querySelector('button'), $('loginMsg'), async () => {
-    user = { id: $('id').value.trim(), pw: $('pw').value.trim() };
+    user = { name: $('name').value.trim(), pw: $('pw').value.trim() };
     await loadHome();
   });
 };
