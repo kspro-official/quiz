@@ -136,6 +136,63 @@
   .explain { margin-top: 10px; padding: 12px 14px; border-radius: 12px; background: var(--bg-alt); font-size: 14px; color: var(--text); }
   .result-actions { padding: 18px 0 calc(28px + env(safe-area-inset-bottom)); }
 
+  /* ---------- 홈 (Duolingo 유닛 카드·설정 목록) ---------- */
+  .home-top { display: flex; align-items: center; gap: 12px; padding: 22px 0 18px; }
+  .avatar { flex: none; width: 48px; height: 48px; border-radius: 50%; display: grid; place-items: center; background: var(--blue); color: #fff; font-family: var(--display); font-size: 20px; box-shadow: 0 3px 0 var(--blue-dark); }
+  .who { flex: 1; min-width: 0; }
+  .who b { display: block; font-family: var(--display); color: var(--strong); font-size: 19px; }
+  .who span { color: var(--muted); font-size: 14px; }
+  .link { border: 0; background: none; color: var(--blue); font-family: var(--bold); font-size: 15px; cursor: pointer; padding: 8px; }
+  .callout { display: flex; gap: 12px; align-items: center; padding: 14px 16px; margin-bottom: 16px; border-radius: 16px; background: #fff4dd; border: 2px solid #ffd99a; color: #8a5300; font-size: 15px; font-weight: 600; }
+  .callout .link { margin-left: auto; color: var(--orange); flex: none; }
+  .unit { position: relative; overflow: hidden; border-radius: 20px; padding: 22px 20px 20px; color: #fff; background: var(--green); box-shadow: 0 5px 0 var(--green-dark); }
+  .unit::after { content: ""; position: absolute; right: -30px; top: -30px; width: 140px; height: 140px; border-radius: 50%; background: rgba(255,255,255,.12); }
+  .unit small { font-family: var(--bold); font-size: 13px; letter-spacing: .08em; opacity: .9; }
+  .unit h2 { margin: 4px 0 4px; color: #fff; font-size: 24px; }
+  .unit p { margin: 0 0 18px; font-weight: 600; opacity: .95; }
+  .unit .status { display: inline-block; margin: -6px 0 16px; padding: 4px 12px; border-radius: 99px; background: rgba(255,255,255,.22); font-weight: 700; font-size: 14px; }
+  .btn.white { color: var(--green-dark); background: #fff; box-shadow: 0 4px 0 #dcdcdc; }
+  .btn.white:active { box-shadow: 0 0 0 #dcdcdc; }
+  .btn.white .spinner { border-color: rgba(70,163,2,.3); border-top-color: var(--green-dark); }
+  .menu { margin: 22px 0 8px; display: grid; gap: 12px; }
+  .menu-item { display: flex; align-items: center; gap: 14px; width: 100%; padding: 16px; text-align: left; background: #fff; border: 2px solid var(--line); border-radius: 16px; box-shadow: 0 4px 0 var(--line); cursor: pointer; font-family: var(--bold); font-size: 17px; color: var(--strong); transition: transform .08s, box-shadow .08s; }
+  .menu-item:active { transform: translateY(4px); box-shadow: 0 0 0 var(--line); }
+  .menu-item .ico { flex: none; width: 42px; height: 42px; border-radius: 12px; display: grid; place-items: center; }
+  .menu-item .ico svg { width: 22px; height: 22px; }
+  .menu-item small { display: block; font-family: "Pretendard Variable", sans-serif; font-weight: 500; font-size: 14px; color: var(--muted); }
+  .menu-item .chev { margin-left: auto; color: var(--soft); }
+
+  /* ---------- 하위 화면 (비밀번호 변경·이전 기록) ---------- */
+  .sub-top { display: flex; align-items: center; gap: 8px; padding: 18px 0 8px; }
+  .sub-top h1 { margin: 0; font-family: var(--display); color: var(--strong); font-size: 21px; }
+  .sub-lead { color: var(--muted); margin: 4px 0 20px; }
+  .field .hint { display: block; margin: 6px 4px 0; color: var(--muted); font-size: 13px; }
+  .hist { display: flex; align-items: center; gap: 14px; padding: 14px 16px; margin-bottom: 10px; border: 2px solid var(--line); border-radius: 16px; }
+  .hist .score { flex: none; width: 56px; height: 56px; border-radius: 14px; display: grid; place-items: center; font-family: var(--display); font-size: 20px; color: #fff; }
+  .hist.pass .score { background: var(--green); } .hist.fail .score { background: var(--red); }
+  .hist b { display: block; color: var(--strong); font-family: var(--bold); font-size: 16px; }
+  .hist span { color: var(--muted); font-size: 14px; }
+  .badge { margin-left: auto; flex: none; padding: 4px 10px; border-radius: 99px; font-family: var(--bold); font-size: 13px; }
+  .hist.pass .badge { color: var(--green-dark); background: var(--green-tint); } .hist.fail .badge { color: var(--red-dark); background: var(--red-tint); }
+  .empty { text-align: center; color: var(--muted); padding: 40px 0; }
+  .empty svg { width: 110px; display: block; margin: 0 auto 10px; opacity: .8; }
+  .toast { position: fixed; left: 50%; bottom: 28px; z-index: 20; transform: translateX(-50%); padding: 12px 20px; border-radius: 14px; background: var(--strong); color: #fff; font-weight: 700; box-shadow: 0 6px 20px rgba(0,0,0,.2); animation: rise .25s ease; }
+  @keyframes rise { from { opacity: 0; transform: translate(-50%, 10px); } }
+
+  /* ---------- 회사 정보 ---------- */
+  body { display: flex; flex-direction: column; }
+  .unit .msg:empty { display: none; }
+  section:not([hidden]) { padding-bottom: 36px; }
+  .site-foot { margin-top: auto; padding: 26px 0 calc(30px + env(safe-area-inset-bottom)); border-top: 2px solid var(--line); background: var(--bg-alt); color: var(--muted); font-size: 14px; }
+  .site-foot .co { font-family: var(--display); color: var(--strong); font-size: 18px; }
+  .site-foot .co small { font-family: var(--bold); color: var(--navy); font-size: 13px; margin-left: 6px; }
+  .site-foot dl { display: grid; grid-template-columns: auto 1fr; gap: 4px 14px; margin: 12px 0 14px; }
+  .site-foot dt { color: var(--soft); font-weight: 600; } .site-foot dd { margin: 0; color: var(--text); }
+  .site-foot a { color: var(--text); text-decoration: none; } .site-foot a:hover { text-decoration: underline; }
+  .site-foot .more { display: inline-block; color: var(--blue); font-family: var(--bold); }
+  .site-foot .copy { margin-top: 14px; color: var(--soft); font-size: 12px; }
+  #login .wrap { min-height: auto; }
+
   @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } .btn:active, .opt:active { transform: none; opacity: .85; } }
 </style>
 </head>
@@ -169,9 +226,55 @@
       <label class="field"><input id="id" inputmode="numeric" autocomplete="username" placeholder="사번" aria-label="사번" required></label>
       <label class="field"><input id="pw" type="password" autocomplete="current-password" placeholder="비밀번호" aria-label="비밀번호" required></label>
       <p class="msg" id="loginMsg" role="alert"></p>
-      <button class="btn">시작하기</button>
+      <button class="btn">로그인</button>
     </form>
-    <p class="foot">환경안전이 경영의 第一 원칙입니다</p>
+      </div>
+</section>
+
+<!-- 홈 -->
+<section id="home" hidden>
+  <div class="wrap">
+    <div class="home-top">
+      <div class="avatar" id="avatar" aria-hidden="true"></div>
+      <div class="who"><b id="hName"></b><span id="hDept"></span></div>
+      <button class="link" id="logout" type="button">로그아웃</button>
+    </div>
+    <div class="callout" id="pwWarn" hidden>초기 비밀번호를 쓰고 있어요.<button class="link" type="button" data-go="pwPage">변경하기</button></div>
+    <div class="unit">
+      <small>KS-PRO 안전 퀴즈</small>
+      <h2 id="uTitle"></h2>
+      <p id="uInfo"></p>
+      <div class="status" id="uStatus"></div>
+      <p class="msg" id="homeMsg" role="alert" style="color:#fff"></p>
+      <button class="btn white" id="startBtn" type="button">응시하기</button>
+    </div>
+    <div class="menu">
+      <button class="menu-item" type="button" data-go="histPage"><span class="ico" style="background:var(--blue)"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg></span><span>이전 기록<small id="hCount"></small></span><svg class="chev" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg></button>
+      <button class="menu-item" type="button" data-go="pwPage"><span class="ico" style="background:#ce82ff"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg></span><span>비밀번호 변경<small>로그인 비밀번호를 바꿔요</small></span><svg class="chev" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg></button>
+    </div>
+  </div>
+</section>
+
+<!-- 비밀번호 변경 -->
+<section id="pwPage" hidden>
+  <div class="wrap">
+    <div class="sub-top"><button class="icon-btn" type="button" data-home aria-label="뒤로"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m15 6-6 6 6 6"/></svg></button><h1>비밀번호 변경</h1></div>
+    <p class="sub-lead">다음 로그인부터 새 비밀번호를 사용해요.</p>
+    <form id="pwForm">
+      <label class="field"><input id="pwCur" type="password" autocomplete="current-password" placeholder="현재 비밀번호" aria-label="현재 비밀번호" required></label>
+      <label class="field"><input id="pwNew" type="password" autocomplete="new-password" placeholder="새 비밀번호" aria-label="새 비밀번호" minlength="4" required><span class="hint">4자 이상, 초기 비밀번호(0000)는 쓸 수 없어요.</span></label>
+      <label class="field"><input id="pwNew2" type="password" autocomplete="new-password" placeholder="새 비밀번호 확인" aria-label="새 비밀번호 확인" required></label>
+      <p class="msg" id="pwMsg" role="alert"></p>
+      <button class="btn">변경하기</button>
+    </form>
+  </div>
+</section>
+
+<!-- 이전 기록 -->
+<section id="histPage" hidden>
+  <div class="wrap">
+    <div class="sub-top"><button class="icon-btn" type="button" data-home aria-label="뒤로"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m15 6-6 6 6 6"/></svg></button><h1>이전 기록</h1></div>
+    <div id="histList"></div>
   </div>
 </section>
 
@@ -199,6 +302,20 @@
 <!-- 결과 -->
 <section id="result" hidden><div class="wrap" id="resultBox"></div></section>
 
+<footer class="site-foot" id="siteFoot">
+  <div class="wrap">
+    <div class="co">KS-PRO<small>글로벌 안전관리 전문 기업</small></div>
+    <dl>
+      <dt>대표</dt><dd>최미영</dd>
+      <dt>전화</dt><dd><a href="tel:010-7928-3008">010-7928-3008</a></dd>
+      <dt>이메일</dt><dd><a href="mailto:Ks.pro3008@gmail.com">Ks.pro3008@gmail.com</a></dd>
+      <dt>분야</dt><dd>국내·외 현장 안전관리</dd>
+    </dl>
+    <a class="more" href="https://kspro-official.github.io/kspro/">회사 소개 보기 →</a>
+    <div class="copy">© KS-PRO. 환경안전이 경영의 第一 원칙입니다.</div>
+  </div>
+</footer>
+
 <script>
 // Apps Script 배포 후 받은 웹 앱 URL
 const API = 'https://script.google.com/macros/s/AKfycbxk4XF3Gy3zL6dG3SsaOO_A0fvtFdziByG2lczVmEaQIweXj_2uem3khGynuoSrRDyx/exec';
@@ -206,7 +323,7 @@ const API = 'https://script.google.com/macros/s/AKfycbxk4XF3Gy3zL6dG3SsaOO_A0fvt
 const $ = id => document.getElementById(id);
 const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 const isOX = q => q.options.length === 2 && q.options[0] === 'O' && q.options[1] === 'X';
-let user, questions, answers, cur = 0;
+let user, me, questions, answers, cur = 0;
 
 async function call(body) {
   // text/plain: Apps Script가 CORS 사전요청을 처리하지 못해서
@@ -224,19 +341,68 @@ async function busy(btn, msg, fn) {
   finally { btn.disabled = false; btn.innerHTML = label; }
 }
 
-function show(id) { ['login', 'quiz', 'result'].forEach(s => $(s).hidden = s !== id); scrollTo(0, 0); }
+const PAGES = ['login', 'home', 'pwPage', 'histPage', 'quiz', 'result'];
+function show(id) { PAGES.forEach(s => $(s).hidden = s !== id); $('siteFoot').hidden = id === 'quiz'; scrollTo(0, 0); }
+function toast(text) { const t = document.createElement('div'); t.className = 'toast'; t.textContent = text; document.body.append(t); setTimeout(() => t.remove(), 2200); }
+const fmt = t => { const d = new Date(t); return isNaN(d) ? String(t) : `${d.getFullYear()}.${d.getMonth() + 1}.${d.getDate()} ${String(d.getHours()).padStart(2, '0')}:${String(d.getMinutes()).padStart(2, '0')}`; };
+
+async function loadHome() { me = await call({ action: 'login', ...user }); renderHome(); show('home'); }
+
+function renderHome() {
+  const mine = me.history.filter(h => String(h.round) === String(me.round));
+  const best = mine.length ? Math.max(...mine.map(h => h.score)) : null;
+  $('avatar').textContent = String(me.name).slice(0, 1);
+  $('hName').textContent = `${me.name}님`;
+  $('hDept').textContent = me.dept || '';
+  $('pwWarn').hidden = !me.defaultPw;
+  $('uTitle').textContent = `제${me.round}회차 안전 퀴즈`;
+  $('uInfo').textContent = me.total ? `${me.total}문항 · ${me.passScore}점 이상 합격` : '지금은 진행 중인 퀴즈가 없어요';
+  $('uStatus').textContent = best === null ? '아직 응시하지 않았어요' : mine.some(h => h.pass) ? `합격 완료 · 최고 ${best}점` : `최고 ${best}점 · 다시 도전해 보세요`;
+  $('startBtn').textContent = best === null ? '응시하기' : '다시 응시하기';
+  $('startBtn').disabled = !me.total;
+  $('hCount').textContent = me.history.length ? `지금까지 ${me.history.length}번 응시했어요` : '아직 기록이 없어요';
+  $('homeMsg').textContent = '';
+}
+
+function renderHistory() {
+  $('histList').innerHTML = me.history.length ? me.history.map(h => `
+    <div class="hist ${h.pass ? 'pass' : 'fail'}"><div class="score">${h.score}</div>
+      <div><b>제${esc(h.round)}회차</b><span>${fmt(h.time)}</span></div><span class="badge">${h.pass ? '합격' : '불합격'}</span></div>`).join('')
+    : '<div class="empty"><svg viewBox="0 0 160 120" aria-hidden="true"><use href="#hat"/></svg>아직 응시 기록이 없어요.</div>';
+}
+
+document.querySelectorAll('[data-home]').forEach(b => b.onclick = () => { renderHome(); show('home'); });
+document.querySelectorAll('[data-go]').forEach(b => b.onclick = () => {
+  if (b.dataset.go === 'histPage') renderHistory();
+  if (b.dataset.go === 'pwPage') { $('pwForm').reset(); $('pwMsg').textContent = ''; }
+  show(b.dataset.go);
+});
+$('logout').onclick = () => location.reload();
+
+$('startBtn').onclick = () => busy($('startBtn'), $('homeMsg'), async () => {
+  questions = (await call({ action: 'start', ...user })).questions; answers = []; cur = 0;
+  show('quiz'); render();
+});
+
+$('pwForm').onsubmit = e => {
+  e.preventDefault();
+  if ($('pwNew').value.trim() !== $('pwNew2').value.trim()) { $('pwMsg').textContent = '새 비밀번호가 서로 달라요.'; return; }
+  busy($('pwForm').querySelector('button'), $('pwMsg'), async () => {
+    await call({ action: 'changePw', id: user.id, pw: $('pwCur').value.trim(), newPw: $('pwNew').value.trim() });
+    user.pw = $('pwNew').value.trim(); me.defaultPw = false;
+    renderHome(); show('home'); toast('비밀번호를 변경했어요');
+  });
+};
 
 $('loginForm').onsubmit = e => {
   e.preventDefault();
   busy($('loginForm').querySelector('button'), $('loginMsg'), async () => {
     user = { id: $('id').value.trim(), pw: $('pw').value.trim() };
-    const d = await call({ action: 'login', ...user });
-    questions = d.questions; answers = []; cur = 0;
-    show('quiz'); render();
+    await loadHome();
   });
 };
 
-$('quit').onclick = () => { if (confirm('퀴즈를 그만둘까요? 푼 내용은 저장되지 않아요.')) location.reload(); };
+$('quit').onclick = () => { if (confirm('퀴즈를 그만둘까요? 푼 내용은 저장되지 않아요.')) { renderHome(); show('home'); } };
 
 function render() {
   const q = questions[cur], ox = isOX(q);
@@ -304,7 +470,9 @@ function renderResult(d) {
         <div class="ans correct">정답: <b>${label(questions[i], r.answer)}</b></div>
         ${r.explain ? `<div class="explain"><b>해설</b> ${esc(r.explain)}</div>` : ''}
       </div>`).join('')}
-    <div class="result-actions"><button class="btn" onclick="location.reload()">처음으로</button></div>`;
+    <p class="msg" id="resultMsg" role="alert"></p>
+    <div class="result-actions"><button class="btn" id="homeBtn" type="button">홈으로</button></div>`;
+  $('homeBtn').onclick = () => busy($('homeBtn'), $('resultMsg'), loadHome);
   show('result');
 }
 </script>
